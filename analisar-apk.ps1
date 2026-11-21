@@ -93,6 +93,26 @@ if(Get-Command 'jadx' -ErrorAction SilentlyContinue){
     $report.Add('JADX: verifique a pasta jadx. Codigo nao equivale ao projeto fonte original.')
   }catch{$report.Add('JADX: '+$_.Exception.Message)}
 }
+
+# Ferramentas locais baixadas opcionalmente via preparar-ferramentas.ps1.
+$toolDir=Join-Path $PSScriptRoot 'ferramentas'
+$java=Get-Command 'java' -ErrorAction SilentlyContinue
+$apkJar=Join-Path $toolDir 'apktool_3.0.3.jar'
+$jadxBat=Join-Path $toolDir 'jadx\bin\jadx.bat'
+if($java -and (Test-Path -LiteralPath $apkJar) -and !(Test-Path -LiteralPath (Join-Path $out 'apktool'))){
+  $report.Add('Apktool oficial (jar): analisando recursos e smali...')
+  try{
+    & $java.Source -jar $apkJar d -f $apk -o (Join-Path $out 'apktool') 2>&1 | Out-String |
+      Set-Content -Path (Join-Path $out 'apktool-log.txt')
+  }catch{$report.Add('Apktool jar falhou: '+$_.Exception.Message)}
+}
+if((Test-Path -LiteralPath $jadxBat) -and !(Test-Path -LiteralPath (Join-Path $out 'jadx'))){
+  $report.Add('JADX oficial: gerando Java aproximado...')
+  try{
+    & $jadxBat --no-res -d (Join-Path $out 'jadx') $apk 2>&1 | Out-String |
+      Set-Content -Path (Join-Path $out 'jadx-log.txt')
+  }catch{$report.Add('JADX falhou: '+$_.Exception.Message)}
+}
 $report.Add('')
 $report.Add('PRIVACIDADE: o diagnostico pode conter URLs e tokens; revise antes de compartilhar.')
 $report | Set-Content -Path (Join-Path $out 'RESUMO.txt') -Encoding UTF8
