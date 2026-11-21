@@ -6,9 +6,10 @@ Este diretório é uma **ferramenta local de diagnóstico** para o aplicativo Ve
 
 1. Clique em **Code → Download ZIP** neste repositório.
 2. Extraia o ZIP no Windows.
-3. Arraste seu arquivo `Veiga_Digital_Play_1.13.0.apk` para `executar_analise.bat`.
-4. O programa cria a pasta `Documentos\VeigaDigitalPlay\Inspecao-...` com `RESUMO.txt`, inventário do APK e cópia apenas dos assets em formato de texto.
-5. Se os comandos oficiais **Apktool**, **JADX**, **aapt** ou **apksigner** estiverem instalados, coleta também o Manifest, dados da assinatura, recursos e código decompilado.
+3. **Opcional:** para recuperar também recursos e código aproximado, execute `preparar-ferramentas.ps1` antes. Ele baixa **Apktool 3.0.3** e **JADX 1.5.7** dos repositórios oficiais e verifica o SHA-256, sem enviar seu APK. É preciso ter Java 17+ instalado.
+4. Arraste seu arquivo `Veiga_Digital_Play_1.13.0.apk` para `executar_analise.bat`.
+5. O programa cria a pasta `Documentos\VeigaDigitalPlay\Inspecao-...` com `RESUMO.txt`, inventário do APK e cópia apenas dos assets em formato de texto.
+6. Se os comandos oficiais **Apktool**, **JADX**, **aapt** ou **apksigner** estiverem instalados, coleta também o Manifest, dados da assinatura, recursos e código decompilado.
 
 O script não instala o APK nem executa seu conteúdo, não altera o arquivo original e não envia o APK para o GitHub.
 
