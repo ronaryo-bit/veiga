@@ -116,6 +116,14 @@ if((Test-Path -LiteralPath $jadxBat) -and !(Test-Path -LiteralPath (Join-Path $o
 $report.Add('')
 $report.Add('PRIVACIDADE: o diagnostico pode conter URLs e tokens; revise antes de compartilhar.')
 $report | Set-Content -Path (Join-Path $out 'RESUMO.txt') -Encoding UTF8
+$bundle=Join-Path $base ('VEIGA_DIGITAL_PLAY_INSPECAO-'+$stamp+'.zip')
+try{
+  Compress-Archive -Path (Join-Path $out '*') -DestinationPath $bundle -CompressionLevel Optimal -Force
+  Write-Host ('Pacote gerado: '+$bundle)
+  Write-Host 'AVISO: revise o ZIP antes de compartilhar; assets podem conter links privados.' -ForegroundColor Yellow
+}catch{
+  Write-Host ('O ZIP nao pode ser gerado: '+$_.Exception.Message) -ForegroundColor Yellow
+}
 Write-Host ''
 Write-Host 'ANALISE LOCAL CONCLUIDA' -ForegroundColor Green
 Write-Host ('Pasta: '+$out)
